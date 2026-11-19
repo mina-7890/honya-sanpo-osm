@@ -19,7 +19,7 @@ This repository publishes the map-shape data (derived from OpenStreetMap) used b
 |---|---|
 | `scripts/fetch_osm_area.py` | Overpass API から、範囲内の道・川・緑を取って `data/osm/` に保存する（混んでいて止まったら、同じコマンドで続きから再開する） |
 | `scripts/build_geo_data.py` | 尾道の形のデータ（`geo/onomichi_geo.dart`）を作る |
-| `scripts/build_geo_area.py` | 内陸の駅（出町柳・吉祥寺）の形のデータ（`geo/<駅名>_geo.dart`）を作る |
+| `scripts/build_geo_area.py` | 内陸の駅（出町柳・吉祥寺・北浜）の形のデータ（`geo/<駅名>_geo.dart`）を作る |
 | `tool/render_map_test.dart` | 形のデータから、地図の画像を描く（アプリ本体のプロジェクトの中で動かす参考用） |
 
 ```bash
@@ -29,7 +29,7 @@ python3 scripts/fetch_osm_area.py kichijoji green2   # 公園・森の補助（�
 python3 scripts/build_geo_area.py kichijoji          # geo/kichijoji_geo.dart ができる
 ```
 
-取得したデータの時期：尾道・出町柳は 2026年11月以前、吉祥寺は 2026年11月。
+取得したデータの時期：尾道・出町柳は 2026年11月以前、吉祥寺・北浜は 2026年11月。
 Data retrieved from the Overpass API; timeframes as above (OpenStreetMap data changes over time).
 
 ## 手で足した緑地 / Hand-drawn green areas

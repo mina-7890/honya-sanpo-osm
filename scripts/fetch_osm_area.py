@@ -11,6 +11,7 @@ AREAS = {
     # 名前: (南, 西, 北, 東)
     "demachiyanagi": (35.000, 135.740, 35.060, 135.805),
     "kichijoji": (35.675, 139.535, 35.728, 139.622),
+    "kitahama": (34.668, 135.480, 34.712, 135.533),
 }
 QUERIES = {
     "roads": '(way["highway"~"^(primary|secondary|tertiary|unclassified|residential|living_street|pedestrian|service|footway|path)$"]({b});way["railway"~"^(rail|light_rail|subway|tram|narrow_gauge)$"]({b}););',
@@ -20,7 +21,7 @@ QUERIES = {
     "green2": '(relation["leisure"~"^(park|garden|nature_reserve)$"]({b});relation["landuse"~"^(forest|grass|meadow|recreation_ground)$"]({b});relation["natural"="wood"]({b});way["leisure"="nature_reserve"]({b});way["landuse"="recreation_ground"]({b}););',
 }
 
-GRID = {"kichijoji": (3, 4)}  # 密集した街は、範囲を(行, 列)に分けて取り、あとで合わせる
+GRID = {"kichijoji": (3, 4), "kitahama": (3, 3)}  # 密集した街は、範囲を(行, 列)に分けて取り、あとで合わせる
 ENDPOINTS = ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter"]
 
 
