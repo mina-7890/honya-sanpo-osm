@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-OpenStreetMap（Overpass API）から、地図の背景に使う道・線路・川・池・公園・森を取って data/osm/ に保存する（Googleには接続しない）。
+OpenStreetMap（Overpass API）から、地図の背景に使う道・線路・川・池・公園・森を取って data/osm/ に保存する（Googleのデータは使わない）。
 データ: © OpenStreetMap contributors（ODbL）。
 使い方: python3 fetch_osm_area.py demachiyanagi
 """

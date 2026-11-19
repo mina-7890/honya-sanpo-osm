@@ -1,5 +1,6 @@
-// 自動生成（honya-sanpo-spots/build_geo_area.py）。手で直さない。
-// 地図データ: © OpenStreetMap contributors（ODbL）。試作用。本番での使い方は、規約を確認してから決める。
+// 自動生成（scripts/build_geo_area.py）。手で直さない。
+// 地図データ: © OpenStreetMap contributors（Open Database License 1.0）。https://www.openstreetmap.org/copyright
+// 緑地の一部は、OSMにない範囲を、国土地理院の地図を見て目で追って足したもの（OSMのデータではない）。
 // 座標は、yoridou_data.dart の mapPosOf と同じ投影（原点は駅）。
 import 'area_geo.dart';
 

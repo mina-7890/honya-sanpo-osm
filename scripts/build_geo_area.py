@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 data/osm/<駅名>_*.json（fetch_osm_area.py で取得）から、内陸の駅（海のない街）の地図の背景（Dart）を作る。
-データ: © OpenStreetMap contributors（ODbL）。Googleには接続しない。
+データ: © OpenStreetMap contributors（ODbL）。Googleのデータは使わない。
 使い方: python3 build_geo_area.py demachiyanagi
 出力:   geo/<駅名>_geo.dart
 """
@@ -138,8 +138,10 @@ def make(area):
         for poly in json.load(open(f"{HERE}/{area}_green_hand.json"))["polygons"]:
             parks.append(dp([xy(a, b) for a, b in poly], 0.001))
 
-    out = f"// 自動生成（honya-sanpo-spots/build_geo_area.py）。手で直さない。\n"
-    out += "// 地図データ: © OpenStreetMap contributors（ODbL）。試作用。本番での使い方は、規約を確認してから決める。\n"
+    out = f"// 自動生成（scripts/build_geo_area.py）。手で直さない。\n"
+    out += "// 地図データ: © OpenStreetMap contributors（Open Database License 1.0）。https://www.openstreetmap.org/copyright\n"
+    if os.path.exists(f"{HERE}/{area}_green_hand.json"):
+        out += "// 緑地の一部は、OSMにない範囲を、国土地理院の地図を見て目で追って足したもの（OSMのデータではない）。\n"
     out += "// 座標は、yoridou_data.dart の mapPosOf と同じ投影（原点は駅）。\n"
     out += "import 'area_geo.dart';\n\n"
     out += f"const AreaGeo {CONST} = AreaGeo(\n  sea: false,\n"

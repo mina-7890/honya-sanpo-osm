@@ -1,5 +1,5 @@
-// 自動生成（honya-sanpo-spots/build_geo_data.py）。手で直さない。
-// 地図データ: © OpenStreetMap contributors（ODbL）。試作用。本番での使い方は、規約を確認してから決める。
+// 自動生成（scripts/build_geo_data.py）。手で直さない。
+// 地図データ: © OpenStreetMap contributors（Open Database License 1.0）。https://www.openstreetmap.org/copyright
 // 座標は、yoridou_data.dart の mapPosOf と同じ投影（x,y を並べたもの）。
 
 const List<List<double>> kGeoLand = [

@@ -1,6 +1,6 @@
-// まとめマップの背景を、画像（PNG）に書き出す道具（試作用）。アプリには入らない。
+// まとめマップの背景を、画像（PNG）に書き出す道具。アプリには入らない。
 // 使い方: flutter test tool/yoridou_render_map_test.dart
-// 出力:   honya-sanpo-spots/map_build/<エリア>_raw.png と <エリア>_bounds.json
+// 出力:   map_build/<エリア>_raw.png と <エリア>_bounds.json
 //
 // 地図の形（OpenStreetMapから作った線や面）は tool/yoridou_geo/ にあり、アプリには入れない。
 // 入れるのは、ここで描いた「画像」だけ（ODbLでいう「作った絵（Produced Work）」）。

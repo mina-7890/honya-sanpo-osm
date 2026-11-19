@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-OpenStreetMap の海岸線・道・線路から、試作の地図の背景（Dart）を作る。
-データ: © OpenStreetMap contributors（ODbL）。data/osm/ に保存した取得結果を使う（Googleには接続しない）。
+OpenStreetMap の海岸線・道・線路から、地図の背景（Dart）を作る。
+データ: © OpenStreetMap contributors（ODbL）。data/osm/ に保存した取得結果を使う（Googleのデータは使わない）。
 
 使い方:  python3 build_geo_data.py
 出力:    geo/onomichi_geo.dart
@@ -72,8 +72,8 @@ def emit(name, lines):
         s += "  [" + flat(pts) + "],\n"
     return s + "];\n"
 
-out = "// 自動生成（honya-sanpo-spots/build_geo_data.py）。手で直さない。\n"
-out += "// 地図データ: © OpenStreetMap contributors（ODbL）。試作用。本番での使い方は、規約を確認してから決める。\n"
+out = "// 自動生成（scripts/build_geo_data.py）。手で直さない。\n"
+out += "// 地図データ: © OpenStreetMap contributors（Open Database License 1.0）。https://www.openstreetmap.org/copyright\n"
 out += "// 座標は、yoridou_data.dart の mapPosOf と同じ投影（x,y を並べたもの）。\n\n"
 out += emit("kGeoLand", land) + emit("kGeoMainRoads", main_roads) + emit("kGeoSmallRoads", small_roads) + emit("kGeoRails", rails)
 open(OUT, "w", encoding="utf-8").write(out)
