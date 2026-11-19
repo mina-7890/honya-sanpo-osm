@@ -23,9 +23,14 @@ This repository publishes the map-shape data (derived from OpenStreetMap) used b
 | `tool/render_map_test.dart` | 形のデータから、地図の画像を描く（アプリ本体のプロジェクトの中で動かす参考用） |
 
 ```bash
-python3 scripts/fetch_osm_area.py demachiyanagi
-python3 scripts/build_geo_area.py demachiyanagi
+# 例：吉祥寺（Python 3 と curl が必要。Overpass API が混んでいて止まったら、同じコマンドをもう一度実行すると、続きから再開します）
+python3 scripts/fetch_osm_area.py kichijoji
+python3 scripts/fetch_osm_area.py kichijoji green2   # 公園・森の補助（複数の線でできた大きな形）
+python3 scripts/build_geo_area.py kichijoji          # geo/kichijoji_geo.dart ができる
 ```
+
+取得したデータの時期：尾道・出町柳は 2026年11月以前、吉祥寺は 2026年11月。
+Data retrieved from the Overpass API; timeframes as above (OpenStreetMap data changes over time).
 
 ## 手で足した緑地 / Hand-drawn green areas
 
@@ -37,4 +42,7 @@ python3 scripts/build_geo_area.py demachiyanagi
 
 ## 連絡先 / Contact
 
-本屋さんぽ（App Store のアプリ情報にある問い合わせ先）。
+- このリポジトリについてのご質問・ご指摘は、GitHub の **Issues** へお願いします。 / Please open an issue on this repository.
+  <https://github.com/mina-7890/honya-sanpo-osm/issues>
+- アプリ「本屋さんぽ」へのお問い合わせ・OpenStreetMap の帰属表示などのご連絡は、問い合わせフォームへ。 / For the app or attribution-related requests, please use the contact form:
+  <https://docs.google.com/forms/d/e/1FAIpQLSfv-wb7mCeKZJQqR625_qqGnitAxrrdIVfqwjYq9sCMTT6WsA/viewform>
