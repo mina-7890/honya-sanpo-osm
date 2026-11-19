@@ -5,17 +5,51 @@ data/osm/<駅名>_*.json（fetch_osm_area.py で取得）から、内陸の駅�
 使い方: python3 build_geo_area.py demachiyanagi
 出力:   geo/<駅名>_geo.dart
 """
-import json, math, sys
+import json, math, os, sys
 
-import os
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 HERE = os.path.join(ROOT, "data", "osm")
 APP = os.path.join(ROOT, "geo")
 AREAS = {
     # 名前: (原点の緯度, 原点の経度, 残す範囲(南,西,北,東), Dartの定数名)
     "demachiyanagi": (35.0306702, 135.7731889, (35.008, 135.748, 35.052, 135.798), "kDemachiyanagiGeo"),
+    "kichijoji": (35.7031389, 139.5802187, (35.679, 139.541, 35.724, 139.617), "kKichijojiGeo"),
 }
 
+
+
+def expand_relations(elements):
+    """multipolygon の外周（outer）をつなぎ合わせ、閉じた形の way として追加する（内側の穴は無視）。"""
+    out = []
+    for e in elements:
+        if e["type"] != "relation":
+            out.append(e)
+            continue
+        segs = [[(p["lat"], p["lon"]) for p in m["geometry"]]
+                for m in e.get("members", []) if m.get("role") == "outer" and m.get("geometry")]
+        while segs:
+            ring = segs.pop(0)
+            grew = True
+            while grew and ring[0] != ring[-1]:
+                grew = False
+                for i, sg in enumerate(segs):
+                    if sg[0] == ring[-1]:
+                        ring += sg[1:]
+                    elif sg[-1] == ring[-1]:
+                        ring += sg[::-1][1:]
+                    elif sg[-1] == ring[0]:
+                        ring = sg[:-1] + ring
+                    elif sg[0] == ring[0]:
+                        ring = sg[::-1][:-1] + ring
+                    else:
+                        continue
+                    segs.pop(i)
+                    grew = True
+                    break
+            if ring[0] == ring[-1] and len(ring) > 3:
+                out.append({"type": "way", "tags": e.get("tags", {}),
+                            "geometry": [{"lat": a, "lon": b} for a, b in ring]})
+    return out
 
 def make(area):
     lat0, lng0, BOX, CONST = AREAS[area]
@@ -68,7 +102,7 @@ def make(area):
             continue  # 細すぎる道は省く（容量のため）
         else:
             small_roads.append(pts)
-    for e in json.load(open(f"{HERE}/{area}_water.json"))["elements"]:
+    for e in expand_relations(json.load(open(f"{HERE}/{area}_water.json"))["elements"]):
         if e["type"] != "way" or "geometry" not in e:
             continue
         g = [(p["lat"], p["lon"]) for p in e["geometry"]]
@@ -82,7 +116,10 @@ def make(area):
                 water.append(pts)
         elif t.get("waterway") in ("river", "canal", "stream"):
             water_lines.append(dp([xy(a, b) for a, b in g], 0.0006))
-    for e in json.load(open(f"{HERE}/{area}_green.json"))["elements"]:
+    green_els = json.load(open(f"{HERE}/{area}_green.json"))["elements"]
+    if os.path.exists(f"{HERE}/{area}_green2.json"):  # 複数の線をまとめた形の公園・森（取れた駅だけ）
+        green_els += json.load(open(f"{HERE}/{area}_green2.json"))["elements"]
+    for e in expand_relations(green_els):
         if e["type"] != "way" or "geometry" not in e:
             continue
         g = [(p["lat"], p["lon"]) for p in e["geometry"]]
@@ -96,6 +133,10 @@ def make(area):
         if (max(xs) - min(xs)) * (max(ys) - min(ys)) < 0.00002:
             continue
         parks.append(pts)
+    # 手で囲んだ緑地（OSMにない公園まわりの緑。OSMのデータとは別ファイルに分けて持つ）
+    if os.path.exists(f"{HERE}/{area}_green_hand.json"):
+        for poly in json.load(open(f"{HERE}/{area}_green_hand.json"))["polygons"]:
+            parks.append(dp([xy(a, b) for a, b in poly], 0.001))
 
     out = f"// 自動生成（honya-sanpo-spots/build_geo_area.py）。手で直さない。\n"
     out += "// 地図データ: © OpenStreetMap contributors（ODbL）。試作用。本番での使い方は、規約を確認してから決める。\n"
